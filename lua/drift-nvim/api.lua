@@ -57,7 +57,8 @@ Window = {
 
 		local buf_id = self.buf_id
 		local win_id = self.win_id
-		_ui.close_floating_window(opts, buf_id, win_id)
+
+		_ui.close_window(opts, win_id)
 
 		self.opened = false
 

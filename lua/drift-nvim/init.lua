@@ -16,6 +16,6 @@ end
 
 M.win_controller = require("drift-nvim.api").win_controller
 
-M.version = "0.1.0"
+M.version = "0.1.1"
 
 return M

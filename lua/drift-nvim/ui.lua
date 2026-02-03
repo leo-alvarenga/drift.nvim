@@ -19,22 +19,20 @@ function M.save_silently(buf_id, notify)
 	if not notify then
 		return
 	end
-
-	vim.notify("Drift buffer saved", vim.log.levels.INFO)
 end
 
 --- Closes the floating window and deletes its buffer
 --- @param opts drift-nvim.DriftConfig for the floating window (currently unused)
---- @param buf_id number? Buffer ID of the floating window
 --- @param win_id number? Window ID of the floating window
-function M.close_floating_window(opts, buf_id, win_id)
+function M.close_window(opts, win_id)
 	local win_opts = opts.win_opts or {}
-
-	if buf_id ~= nil and vim.api.nvim_buf_is_valid(buf_id) then
-		vim.api.nvim_buf_delete(buf_id, { force = true })
-	end
+	local win = vim.api.nvim_get_current_win()
 
 	if win_id ~= nil and vim.api.nvim_win_is_valid(win_id) then
+		if win_id ~= win and win ~= nil then
+			vim.api.nvim_set_current_win(win_id)
+		end
+
 		vim.api.nvim_win_close(win_id, true)
 	end
 
@@ -52,23 +50,14 @@ function M.set_autoclose(opts, buf_id, win_id)
 	local _consts = require("drift-nvim.constants")
 
 	-- Auto-close on buffer leave/delete
-	vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave", "BufDelete" }, {
+	vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave", "BufDelete", "WinLeave" }, {
 		buffer = vim.api.nvim_win_get_buf(win_id),
 		group = _consts.plugin.augroup,
 		once = true,
-		callback = function()
-			M.save_silently(buf_id)
-			M.close_floating_window(opts, buf_id, win_id)
-		end,
-	})
 
-	-- Auto-close on window leave
-	vim.api.nvim_create_autocmd("WinLeave", {
-		buffer = buf_id,
-		group = _consts.plugin.augroup,
-		once = true,
 		callback = function()
-			M.close_floating_window(opts, buf_id, win_id)
+			M.save_silently(buf_id, opts.notify)
+			M.close_window(opts, win_id)
 		end,
 	})
 end
@@ -84,6 +73,7 @@ function M.draw_floating_window(opts)
 	local file_path = vim.fn.fnameescape(opts.storage.path .. "drift.md")
 	_file.ensure_file_exists(file_path)
 
+	local auto_insert = opts.auto_insert or false
 	local w_ratio = win_opts.width or 0.8
 	local h_ratio = win_opts.height or 0.8
 
@@ -99,6 +89,8 @@ function M.draw_floating_window(opts)
 	local row = win_opts.row or math.floor((win_height - height) / 2)
 
 	local buf_id = vim.fn.bufadd(file_path)
+	vim.fn.bufload(buf_id)
+
 	local win_id = vim.api.nvim_open_win(buf_id, true, {
 		relative = "editor",
 		title = " " .. require("drift-nvim.constants").plugin.name .. " ",
@@ -113,9 +105,17 @@ function M.draw_floating_window(opts)
 		border = win_opts.border,
 	})
 
-	vim.fn.bufload(buf_id)
-	vim.cmd("normal! G$")
-	vim.cmd("startinsert!")
+	if win_id == nil or win_id <= 0 then
+		return {
+			buf_id = nil,
+			win_id = nil,
+		}
+	end
+
+	if auto_insert then
+		vim.cmd("normal! G$")
+		vim.cmd("startinsert!")
+	end
 
 	M.set_autoclose(opts, buf_id, win_id)
 

@@ -14,6 +14,7 @@ local M = {}
 --- @field path string? The path where drift data is stored. Default is placed under neovim's data directory.
 
 --- @class drift-nvim.DriftConfig
+--- @field auto_insert boolean? If enabled, mode automatically changes to INSERT when Drift is opened. Default is false.
 --- @field keymaps table<string, 'close'|'open'|'toggle'|'drift'>? Options for keymap registration.
 --- @field notify boolean? Whether to show notifications. Default is false.
 --- @field storage drift-nvim.DriftStorageOpts? Options for drift data storage.
