@@ -8,11 +8,10 @@ A tiny, zen-like mental backlog for Neovim. Quickly jot down what you’re doing
 
 ## Features
 
-- Instant scratch-style backlog buffer for your current session.
-- Single command / keymap to open, write, and close.
-- Lightweight, no external dependencies.
-- Optional persistence between sessions (configurable).
-- Simple, text-only interface that plays nice with your colorscheme.
+- Instant scratch-style backlog buffer for your current session
+- Single command / keymap to open, write, and close
+- Lightweight, no external dependencies
+- Simple, text-only interface that plays nice with your color scheme
 
 ---
 
@@ -55,23 +54,54 @@ use({
 ## Configuration
 
 ```lua
--- All options are optional!
+-- Everything is optional!
 
 -- Default setup
-require("drift").setup({
-	storage = {
-		-- Default storage file path: <data_dir>/drift-nvim/drift.txt
-		path = vim.fn.stdpath("data") .. "/drift-nvim/",
-	},
+require("drift-nvim").setup({
+  storage = {
+    -- Default storage file path: <data_dir>/drift-nvim/drift.txt
+    path = vim.fn.stdpath("data") .. "/drift-nvim/",
+  },
 
-	win_opts = {
-		width = 0.8,
-		height = 0.8,
-		row = nil,
-		col = nil,
-		border = nil,
-		style = nil,
-	},
+  win_opts = {
+    width = 0.8,
+    height = 0.8,
+    row = nil,
+    col = nil,
+    border = nil,
+    style = nil,
+  },
+})
+
+-- Example with all options
+require("drift-nvim").setup({
+  keymaps = {
+    ['<leader>od'] = { -- Toggle drift buffer
+      action = 'toggle',
+      desc = 'Toggle Drift backlog',
+    }
+  }
+
+  notify = true, -- Enable notifications when auto-saving
+
+  storage = {
+    path = "~/Documents/drift/", -- Custom storage path
+  },
+
+  win_opts = {
+    width = 0.6,
+    height = 0.6,
+    row = nil,
+    col = nil,
+    border = nil,
+    style = nil,
+    on_open = function()
+      vim.notify("Drift buffer opened!")
+    end,
+    on_close = function()
+      vim.notify("Drift buffer closed!")
+    end,
+  },
 })
 ```
 
@@ -81,9 +111,9 @@ require("drift").setup({
 
 Default commands:
 
-- `:Drift` – Open or toggle the drift buffer. If no buffer exists, it creates one.
+- `:Drift` – Open or toggle the drift buffer.
 
-You can map these in Lua, for example:
+You can map these in Lua yourself, for example:
 
 ```lua
 vim.keymap.set("n", "<leader>od", "<cmd>Drift<CR>", { desc = "Toggle drift backlog" })
@@ -93,13 +123,12 @@ vim.keymap.set("n", "<leader>od", "<cmd>Drift<CR>", { desc = "Toggle drift backl
 
 ## Roadmap
 
-- [ ] Configurable storage backends (session-only, file, project-local).
+- [ ] Support for multiple drift buffers/entries.
 - [ ] Simple search or filter for past entries.
 - [ ] Optional per-project drift buffers.
-- [ ] Better default keymaps and commands.
 
 ---
 
 ## License
 
-MIT.
+[MIT](./LICENSE.md) © 2026 Leonardo A. Alvarenga
