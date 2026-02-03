@@ -13,7 +13,7 @@ A tiny, zen-like mental backlog for Neovim. Quickly jot down what you’re doing
 - Lightweight, no external dependencies
 - Simple, text-only interface that plays nice with your color scheme
 
-<video src="./docs/demo.webm" width="320" height="240" controls></video>
+[Screencast from 2026-02-03 13-14-16.webm](https://github.com/user-attachments/assets/4eaeae32-bf7f-4418-8d66-56c5a6583f7b)
 
 ---
 
