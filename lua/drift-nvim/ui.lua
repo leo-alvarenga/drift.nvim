@@ -101,10 +101,8 @@ function M.draw_floating_window(opts)
 	local buf_id = vim.fn.bufadd(file_path)
 	local win_id = vim.api.nvim_open_win(buf_id, true, {
 		relative = "editor",
-		title = " Drift ",
+		title = " " .. require("drift-nvim.constants").plugin.name .. " ",
 		title_pos = "center",
-		footer = " Press 'q' to close ",
-		footer_pos = "center",
 		hide = false,
 		zindex = 90,
 		col = col,
@@ -116,6 +114,8 @@ function M.draw_floating_window(opts)
 	})
 
 	vim.fn.bufload(buf_id)
+	vim.cmd("normal! G$")
+	vim.cmd("startinsert!")
 
 	M.set_autoclose(opts, buf_id, win_id)
 
