@@ -25,7 +25,7 @@ Use your favorite plugin manager. Examples:
 
 ```lua
 {
-  "yourname/drift.nvim",
+  "leo-alvarenga/drift.nvim",
   config = function()
     require("drift").setup({
       -- See Configuration section below
@@ -42,7 +42,7 @@ Use your favorite plugin manager. Examples:
 
 ```lua
 use({
-  "yourname/drift.nvim",
+  "leo-alvarenga/drift.nvim",
   config = function()
     require("drift").setup({
       -- See Configuration section below
