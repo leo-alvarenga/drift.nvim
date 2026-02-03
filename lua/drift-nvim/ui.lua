@@ -2,7 +2,8 @@ local M = {}
 
 --- Silently saves the buffer with the given ID
 --- @param buf_id number Buffer ID to save
-function M.save_silently(buf_id)
+--- @param notify boolean? Whether to show a notification after saving
+function M.save_silently(buf_id, notify)
 	local current_buf = vim.api.nvim_get_current_buf()
 
 	if buf_id ~= current_buf then
@@ -13,6 +14,10 @@ function M.save_silently(buf_id)
 
 	if buf_id ~= current_buf then
 		vim.api.nvim_set_current_buf(current_buf)
+	end
+
+	if not notify then
+		return
 	end
 
 	vim.notify("Drift buffer saved", vim.log.levels.INFO)

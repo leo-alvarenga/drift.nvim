@@ -22,7 +22,7 @@ M.functions = {
 		window:open(require("drift-nvim.config").get_options())
 	end,
 	[_consts.commands.close] = function()
-		window:close()
+		window:close(require("drift-nvim.config").get_options())
 	end,
 }
 
@@ -30,18 +30,6 @@ M.commands = {
 	--- @type vim.api.keyset.user_command
 	[_consts.commands.drift] = {
 		desc = to_desc("Start drifting"),
-	},
-	--- @type vim.api.keyset.user_command
-	[_consts.commands.toggle] = {
-		desc = to_desc("Toggle"),
-	},
-	--- @type vim.api.keyset.user_command
-	[_consts.commands.open] = {
-		desc = to_desc("Open"),
-	},
-	--- @type vim.api.keyset.user_command
-	[_consts.commands.close] = {
-		desc = to_desc("Close"),
 	},
 }
 
