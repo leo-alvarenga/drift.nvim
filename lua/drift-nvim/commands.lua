@@ -7,7 +7,7 @@ local function to_desc(desc)
 	return _consts.plugin.actual_name .. ": " .. desc
 end
 
-local window = _api.win_controller
+local window = _api.window
 
 local M = {}
 

@@ -10,34 +10,34 @@ function M.check()
 	local ok, plugin = pcall(require, _consts.plugin.register)
 
 	if ok and plugin then
-		local win_controller = plugin.win_controller
+		local window = plugin.window
 
-		if win_controller then
-			vim.health.ok("win_controller is present")
+		if window then
+			vim.health.ok("window is present")
 
-			if type(win_controller.toggle) == "function" then
-				vim.health.ok("win_controller.toggle is a function")
+			if type(window.toggle) == "function" then
+				vim.health.ok("window.toggle is a function")
 			else
-				vim.health.error("win_controller.toggle is not a function")
+				vim.health.error("window.toggle is not a function")
 			end
 
-			local status, err = pcall(win_controller.toggle, win_controller)
-			status, err = pcall(win_controller.toggle, win_controller)
+			local status, err = pcall(window.toggle, window)
+			status, err = pcall(window.toggle, window)
 
 			if status then
-				vim.health.ok("win_controller.toggle() executed without errors")
+				vim.health.ok("window.toggle() executed without errors")
 			else
-				vim.health.error("win_controller.toggle() raised an error: " .. err)
+				vim.health.error("window.toggle() raised an error: " .. err)
 			end
 		else
 			vim.health.warn(
-				"win_controller return `nil`. This probably means the plugin was not initialized correctly. Make sure to call `require('"
+				"window return `nil`. This probably means the plugin was not initialized correctly. Make sure to call `require('"
 					.. _consts.plugin.register
 					.. "').setup()` in your config."
 			)
 		end
 	else
-		vim.health.error("Failed to load win_controller function")
+		vim.health.error("Failed to load window function")
 	end
 end
 

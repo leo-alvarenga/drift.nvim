@@ -14,7 +14,7 @@ function M.setup(opts)
 	_keymaps.register_keymaps(_config.get_options())
 end
 
-M.win_controller = require("drift-nvim.api").win_controller
+M.window = require("drift-nvim.api").window
 
 M.version = "0.1.1"
 

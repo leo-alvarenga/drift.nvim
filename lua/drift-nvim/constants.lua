@@ -13,8 +13,6 @@ M.plugin = {
 	actual_name = "drift.nvim",
 }
 
-M.plugin.augroup = vim.api.nvim_create_augroup(M.plugin.name .. "AutoCmds", { clear = true })
-
 --- @param name string?
 --- @return string
 function M.to_cmd(name)
